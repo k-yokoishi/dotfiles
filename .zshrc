@@ -7,12 +7,6 @@ HISTFILE=~/.zsh_history
 HISTSIZE=10000
 SAVEHIST=10000
 
-# zmv -W '*.js' '*.ts'
-autoload -Uz zmv
-
-# Set word divider
-autoload -Uz select-word-style && select-word-style default
-
 # Share history among terminal
 setopt share_history
 
@@ -101,6 +95,12 @@ elif which putclip >/dev/null 2>&1 ; then
     alias -g C='| putclip'
 fi
 
+# zmv -W '*.js' '*.ts'
+autoload -Uz zmv
+
+# Set word divider
+autoload -Uz select-word-style && select-word-style default
+
 ##################################################
 # Plugins (zplug)
 ##################################################
@@ -137,20 +137,20 @@ setopt prompt_subst
 
 zstyle ':vcs_info:git:*' check-for-changes true
 zstyle ':vcs_info:git:*' unstagedstr '%F{yellow}!'
-zstyle ':vcs_info:git:*' stagedstr '%F{red}+'
-zstyle ':vcs_info:*' formats ' on %c%u%b'
-zstyle ':vcs_info:*' actionformats ' on %c%u%s:%b|%a'
+zstyle ':vcs_info:git:*' stagedstr '%F{magenta}+'
+zstyle ':vcs_info:*' formats ' on %F{green}%c%u%b'
+zstyle ':vcs_info:*' actionformats ' on %F{green}%c%u%s:%b|%a'
 
 # Workaround to update vsc_info for each command
 # https://github.com/olivierverdier/zsh-git-prompt/issues/55#issuecomment-77427039
 precmd () {
     vcs_info
-    PROMPT="# %F{cyan}%n%f in %B%F{blue}%~%f%b${vcs_info_msg_0_} %F{white}[%*]%f
-%(?.%{$fg[green]%}.%{$fg[red]%})%B❯%b %{${reset_color}%}"
+    PROMPT="%F{245}#%f %F{cyan}%n%f in %F{214}%~%f${vcs_info_msg_0_} %F{white}[%*]%f
+%(?.%{$fg[green]%}.%{$fg[red]%})❯❯❯ %{${reset_color}%}"
 }
 
-PROMPT="# %F{cyan}%n%f in %B%F{blue}%~%f%b${vcs_info_msg_0_} %F{white}[%*]%f
-%(?.%{$fg[green]%}.%{$fg[red]%})%B❯%b %{${reset_color}%}"
+PROMPT="%F{245}#%f %F{cyan}%n%f in %F{214}%~%f${vcs_info_msg_0_} %F{white}[%*]%f
+%(?.%{$fg[green]%}.%{$fg[red]%})❯❯❯ %{${reset_color}%}"
 
 # prevent from disappearing history prompt(^R) on updating every seconds
 # https://unix.stackexchange.com/questions/347182/zle-reset-prompt-prevents-browsing-history-with-arrow-keys
