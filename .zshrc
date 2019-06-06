@@ -4,8 +4,8 @@
 
 # History size
 HISTFILE=~/.zsh_history
-HISTSIZE=1000000
-SAVEHIST=1000000
+HISTSIZE=10000
+SAVEHIST=10000
 
 # zmv -W '*.js' '*.ts'
 autoload -Uz zmv
@@ -146,14 +146,26 @@ zstyle ':vcs_info:*' actionformats ' on %c%u%s:%b|%a'
 precmd () {
     vcs_info
     PROMPT="# %F{cyan}%n%f in %B%F{blue}%~%f%b${vcs_info_msg_0_} %F{white}[%*]%f
-%(?.$fg[green].$fg[red])%B❯%b $reset_color"
+%(?.%{$fg[green]%}.%{$fg[red]%})%B❯%b %{${reset_color}%}"
 }
 
 PROMPT="# %F{cyan}%n%f in %B%F{blue}%~%f%b${vcs_info_msg_0_} %F{white}[%*]%f
-%(?.$fg[green].$fg[red])%B❯%b $reset_color"
+%(?.%{$fg[green]%}.%{$fg[red]%})%B❯%b %{${reset_color}%}"
 
+# prevent from disappearing history prompt(^R) on updating every seconds
+# https://unix.stackexchange.com/questions/347182/zle-reset-prompt-prevents-browsing-history-with-arrow-keys
 TMOUT=1
-TRAPALRM() {zle reset-prompt}
+TRAPALRM() {
+    case "$WIDGET" in
+        expand-or-complete|self-insert|up-line-or-beginning-search|down-line-or-beginning-search|backward-delete-char|.history-incremental-search-backward|.history-incremental-search-forward)
+            :
+            ;;
+
+        *)
+            zle reset-prompt
+            ;;
+    esac
+}
      
 ##################################################
 # Aliases
