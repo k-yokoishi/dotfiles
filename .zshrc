@@ -136,36 +136,35 @@ autoload -Uz vcs_info
 setopt prompt_subst
 
 zstyle ':vcs_info:git:*' check-for-changes true
-zstyle ':vcs_info:git:*' unstagedstr '%F{yellow}!'
+zstyle ':vcs_info:git:*' unstagedstr '%F{magenta}!'
 zstyle ':vcs_info:git:*' stagedstr '%F{magenta}+'
-zstyle ':vcs_info:*' formats ' on %F{green}%c%u%b'
-zstyle ':vcs_info:*' actionformats ' on %F{green}%c%u%s:%b|%a'
+zstyle ':vcs_info:*' formats ' on %F{green}%c%u%b%f'
+zstyle ':vcs_info:*' actionformats ' on %F{green}%c%u%b|%a'
 
-# Workaround to update vsc_info for each command
-# https://github.com/olivierverdier/zsh-git-prompt/issues/55#issuecomment-77427039
+preexec() {
+    timer=$SECONDS
+}
+
 precmd () {
+    # timer is not set when starting terminal
+    elapsed=$(($SECONDS - ${timer:-$SECONDS}))
+    if [ $elapsed -ge 1 ]; then
+        took="took %F{yellow}${elapsed}sec%f"
+    else
+        took=""
+    fi
+
+    # Workaround to update vsc_info for each command
+    # https://github.com/olivierverdier/zsh-git-prompt/issues/55#issuecomment-77427039
     vcs_info
-    PROMPT="%F{245}#%f %F{cyan}%n%f in %F{214}%~%f${vcs_info_msg_0_} %F{white}[%*]%f
+    PROMPT="%F{245}#%f %F{cyan}%n%f in %F{214}%~%f${vcs_info_msg_0_} ${took}
 %(?.%{$fg[green]%}.%{$fg[red]%})❯❯❯ %{${reset_color}%}"
+    unset timer
 }
 
-PROMPT="%F{245}#%f %F{cyan}%n%f in %F{214}%~%f${vcs_info_msg_0_} %F{white}[%*]%f
+PROMPT="%F{245}#%f %F{cyan}%n%f in %F{214}%~%f${vcs_info_msg_0_} ${took}
 %(?.%{$fg[green]%}.%{$fg[red]%})❯❯❯ %{${reset_color}%}"
 
-# prevent from disappearing history prompt(^R) on updating every seconds
-# https://unix.stackexchange.com/questions/347182/zle-reset-prompt-prevents-browsing-history-with-arrow-keys
-TMOUT=1
-TRAPALRM() {
-    case "$WIDGET" in
-        expand-or-complete|self-insert|up-line-or-beginning-search|down-line-or-beginning-search|backward-delete-char|.history-incremental-search-backward|.history-incremental-search-forward)
-            :
-            ;;
-
-        *)
-            zle reset-prompt
-            ;;
-    esac
-}
      
 ##################################################
 # Aliases
