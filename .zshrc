@@ -73,6 +73,9 @@ setopt ignore_eof
 # '#' is recognized as comment
 setopt interactive_comments
 
+# Set word divider
+autoload -Uz select-word-style && select-word-style default
+
 # / is used as word divider, so ^W delete a directory
 zstyle ':zle:*' word-chars " /=;@:{},|"
 zstyle ':zle:*' word-style unspecified
@@ -98,9 +101,6 @@ fi
 # zmv -W '*.js' '*.ts'
 autoload -Uz zmv
 
-# Set word divider
-autoload -Uz select-word-style && select-word-style default
-
 ##################################################
 # Plugins (zplug)
 ##################################################
@@ -120,11 +120,7 @@ zplug load
 
 path=( \
   $HOME/.local/bin(N-/) \
-  $GOPATH/bin \
-  /usr/local/bin \
-  /usr/local/go/bin \
-  /usr/local/kubebuilder/bin \
-  ${KREW_ROOT:-$HOME/.krew}/bin \
+  /usr/local/bin(N-/) \
   $path \
 )
 
@@ -157,13 +153,15 @@ precmd () {
     # Workaround to update vsc_info for each command
     # https://github.com/olivierverdier/zsh-git-prompt/issues/55#issuecomment-77427039
     vcs_info
-    PROMPT="%F{245}#%f %F{cyan}%n%f in %F{214}%~%f${vcs_info_msg_0_} ${took}
-%(?.%{$fg[green]%}.%{$fg[red]%})❯❯❯ %{${reset_color}%}"
+    PROMPT="
+%F{245}#%f %F{cyan}%n%f in %F{214}%~%f${vcs_info_msg_0_} ${took}
+%(?.%{$fg[green]%}.%{$fg[red]%})❯ %{${reset_color}%}"
     unset timer
 }
 
-PROMPT="%F{245}#%f %F{cyan}%n%f in %F{214}%~%f${vcs_info_msg_0_} ${took}
-%(?.%{$fg[green]%}.%{$fg[red]%})❯❯❯ %{${reset_color}%}"
+PROMPT="
+%F{245}#%f %F{cyan}%n%f in %F{214}%~%f${vcs_info_msg_0_} ${took}
+%(?.%{$fg[green]%}.%{$fg[red]%})❯ %{${reset_color}%}"
 
      
 ##################################################
@@ -187,6 +185,7 @@ alias mkdir='mkdir -p'
 
 alias g='git'
 alias gad='git add'
+alias gaa='git add --all'
 alias gbr='git branch'
 alias gco='git checkout'
 alias glg='git log --graph --oneline --decorate --all'
@@ -198,6 +197,12 @@ alias gst='git status'
 ##################################################
 
 export GOPATH=$HOME/go
+
+path=(
+  $GOPATH/bin(N-/) \
+  /usr/local/go/bin(N-/) \
+  $path
+)
 
 ##################################################
 # Node
@@ -230,27 +235,36 @@ fi
 
 # pyenv (Python version management)
 PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
+if [ -d $PYENV_ROOT ]; then
+  path=($PYENV_ROOT/bin(N-/) $path)
+  eval "$(pyenv init -)"
+fi
 
 ##################################################
 # Kubernetes
 ##################################################
+
+path=( \
+  /usr/local/kubebuilder/bin(N-/) \
+  ${KREW_ROOT:-$HOME/.krew}/bin(N-/) \
+  $path \
+)
 
 # kubectl
 source <(kubectl completion zsh)
 alias k=kubectl
 complete -o default -F __start_kubectl k
 
-### gcloud
+##################################################
+# Google Cloud Platform
+##################################################
 
 # The next line updates PATH for the Google Cloud SDK.
-if [ -f '$HOME/google-cloud-sdk/path.zsh.inc' ]; then
-    . '$HOME/google-cloud-sdk/path.zsh.inc'
+if [ -f "$HOME/google-cloud-sdk/path.zsh.inc" ]; then
+    . "$HOME/google-cloud-sdk/path.zsh.inc"
 fi
 
 # The next line enables shell command completion for gcloud.
-if [ -f '$HOME/google-cloud-sdk/completion.zsh.inc' ]; then
-    . '$HOME/google-cloud-sdk/completion.zsh.inc';
+if [ -f "$HOME/google-cloud-sdk/completion.zsh.inc" ]; then
+    . "$HOME/google-cloud-sdk/completion.zsh.inc"
 fi
-
