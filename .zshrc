@@ -134,34 +134,43 @@ setopt prompt_subst
 zstyle ':vcs_info:git:*' check-for-changes true
 zstyle ':vcs_info:git:*' unstagedstr '%F{magenta}!'
 zstyle ':vcs_info:git:*' stagedstr '%F{magenta}+'
-zstyle ':vcs_info:*' formats ' on %F{green}%c%u%b%f'
-zstyle ':vcs_info:*' actionformats ' on %F{green}%c%u%b|%a'
+zstyle ':vcs_info:*' formats ' on %{$fg_bold[green]%}%c%u%b%{${reset_color}%}'
+zstyle ':vcs_info:*' actionformats ' on %{$fg_bold[green]%}%c%u%b|%a{${reset_color}%}'
+
+construct_prompt() {
+    # Workaround to update vsc_info for each command
+    # https://github.com/olivierverdier/zsh-git-prompt/issues/55#issuecomment-77427039
+    vcs_info
+
+    if [ -v VIRTUAL_ENV ]; then
+         pyver=$(python -V | cut -d" " -f2)
+         venv=$(basename $VIRTUAL_ENV)
+         venv_info=" on %B%F{yellow}$venv:$pyver%f%b"
+    fi
+
+    # timer is not set when starting terminal
+    elapsed=$(($SECONDS - ${timer:-$SECONDS}))
+    if [ $elapsed -ge 3 ]; then
+        took="took %B%F{yellow}${elapsed}sec%f%b"
+    else
+        took=""
+    fi
+
+    echo "
+%F{245}#%f %B%F{214}%n%f%b in %B%F{cyan}%~%f%b${vcs_info_msg_0_}${venv_info} ${took}
+%(?.%{$fg[green]%}.%{$fg[red]%})➜ %{${reset_color}%}"
+}
 
 preexec() {
     timer=$SECONDS
 }
 
 precmd () {
-    # timer is not set when starting terminal
-    elapsed=$(($SECONDS - ${timer:-$SECONDS}))
-    if [ $elapsed -ge 1 ]; then
-        took="took %F{yellow}${elapsed}sec%f"
-    else
-        took=""
-    fi
-
-    # Workaround to update vsc_info for each command
-    # https://github.com/olivierverdier/zsh-git-prompt/issues/55#issuecomment-77427039
-    vcs_info
-    PROMPT="
-%F{245}#%f %F{cyan}%n%f in %F{214}%~%f${vcs_info_msg_0_} ${took}
-%(?.%{$fg[green]%}.%{$fg[red]%})❯ %{${reset_color}%}"
+    PROMPT=`construct_prompt`
     unset timer
 }
 
-PROMPT="
-%F{245}#%f %F{cyan}%n%f in %F{214}%~%f${vcs_info_msg_0_} ${took}
-%(?.%{$fg[green]%}.%{$fg[red]%})❯ %{${reset_color}%}"
+PROMPT=`construct_prompt`
 
      
 ##################################################
