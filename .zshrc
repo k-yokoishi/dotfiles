@@ -64,6 +64,21 @@ chpwd() { ls -ltr }
 setopt extended_glob
 
 ##################################################
+# fzf
+##################################################
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+ghq_repo() {
+    local dir
+    dir=$(ghq list > /dev/null | fzf-tmux --reverse +m) &&
+    cd $(ghq root)/$dir
+}
+
+zle -N ghq_repo
+bindkey '^G' ghq_repo
+
+##################################################
 # Others (uncategorized)
 ##################################################
 
@@ -142,7 +157,7 @@ construct_prompt() {
     # https://github.com/olivierverdier/zsh-git-prompt/issues/55#issuecomment-77427039
     vcs_info
 
-    if [ -v VIRTUAL_ENV ]; then
+    if [ -n "$VIRTUAL_ENV" ]; then
          pyver=$(python -V | cut -d" " -f2)
          venv=$(basename $VIRTUAL_ENV)
          venv_info=" on %B%F{yellow}$venv:$pyver%f%b"
@@ -156,8 +171,8 @@ construct_prompt() {
         took=""
     fi
 
-    if [[ -n "$vcs_info_msg_0_" ]]; then
-        if [[ -n "$vcs_info_msg_1_" ]]; then
+    if [ -n "$vcs_info_msg_0_" ]; then
+        if [ -n "$vcs_info_msg_1_" ]; then
             vsc_info=" on %B%F{magenta} ${vcs_info_msg_0_}*%f%b"
         else
             vsc_info=" on %B%F{green} ${vcs_info_msg_0_}%f%b"
@@ -207,6 +222,7 @@ alias gad='git add'
 alias gaa='git add --all'
 alias gbr='git branch'
 alias gco='git checkout'
+alias gcm='git commit'
 alias glg='git log --graph --oneline --decorate --all'
 alias gld='git log --pretty=format:"%h %ad %s" --date=short --all'
 alias gst='git status'
