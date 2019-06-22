@@ -132,10 +132,10 @@ autoload -Uz vcs_info
 setopt prompt_subst
 
 zstyle ':vcs_info:git:*' check-for-changes true
-zstyle ':vcs_info:git:*' unstagedstr '%F{magenta}!'
-zstyle ':vcs_info:git:*' stagedstr '%F{magenta}+'
-zstyle ':vcs_info:*' formats ' on %{$fg_bold[green]%}%c%u%b%{${reset_color}%}'
-zstyle ':vcs_info:*' actionformats ' on %{$fg_bold[green]%}%c%u%b|%a{${reset_color}%}'
+zstyle ':vcs_info:git:*' unstagedstr '!'
+zstyle ':vcs_info:git:*' stagedstr '!'
+zstyle ':vcs_info:*' formats '%b' '%c%u'
+zstyle ':vcs_info:*' actionformats '%b' '%c%u<%a>'
 
 construct_prompt() {
     # Workaround to update vsc_info for each command
@@ -156,8 +156,18 @@ construct_prompt() {
         took=""
     fi
 
+    if [[ -n "$vcs_info_msg_0_" ]]; then
+        if [[ -n "$vcs_info_msg_1_" ]]; then
+            vsc_info=" on %B%F{magenta} ${vcs_info_msg_0_}*%f%b"
+        else
+            vsc_info=" on %B%F{green} ${vcs_info_msg_0_}%f%b"
+        fi
+    else
+        vsc_info=""
+    fi
+
     echo "
-%F{245}#%f %B%F{214}%n%f%b in %B%F{cyan}%~%f%b${vcs_info_msg_0_}${venv_info} ${took}
+%F{245}#%f %B%F{214}%n%f%b in %B%F{cyan}%~%f%b${vsc_info}${venv_info} ${took}
 %(?.%{$fg[green]%}.%{$fg[red]%})➜ %{${reset_color}%}"
 }
 
