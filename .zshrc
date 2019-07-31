@@ -58,7 +58,7 @@ setopt pushd_ignore_dups
 setopt correct
 
 # Run ls after cd
-chpwd() { ls -ltr }
+chpwd() { ls -ltrG }
 
 # Extended glob expansion
 setopt extended_glob
@@ -206,6 +206,7 @@ alias -g L='| less'
 alias -g G='| grep'
 
 alias sudo='sudo ' # enable completion after sudo
+alias watch='watch ' # enable alias after watch
 
 alias rm='rm -i'
 alias cp='cp -i'
