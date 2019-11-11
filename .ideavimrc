@@ -10,6 +10,9 @@ nnoremap <Space>e :action SearchEverywhere<CR>
 nnoremap <Space>g :action FindInPath<CR>
 nnoremap <Space>s :action FileStructurePopup<CR>
 
+nnoremap <C-o>- :split<CR>
+nnoremap <C-o>l :vsplit<CR>
+
 nnoremap <C-j> :action PreviousTab<CR>
 nnoremap <C-k> :action NextTab<CR>
 nnoremap <C-h> :action PrevSplitter<CR>
