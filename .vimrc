@@ -9,5 +9,8 @@ let mapleader = "\<Space>"
 
 nnoremap <Leader>w :w<CR>
 nnoremap <Leader>q :q<CR>
+nnoremap ; :
+nnoremap L $
+nnoremap H 0
 
 inoremap <silent> jj <ESC>

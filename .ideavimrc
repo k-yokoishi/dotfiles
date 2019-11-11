@@ -1,0 +1,11 @@
+source ~/.vimrc
+
+nnoremap gd :action GotoDeclaration<CR>
+nnoremap gb :action Back<CR>
+
+nnoremap <Space>w :w<CR>
+nnoremap <Space>q :q<CR>
+
+nnoremap <Space>e :action SearchEverywhere<CR>
+nnoremap <Space>g :action FindInPath<CR>
+nnoremap <Space>s :action FileStructurePopup<CR>
