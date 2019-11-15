@@ -19,6 +19,13 @@ setopt hist_ignore_space
 # Strip space in history
 setopt hist_reduce_blanks
 
+function select-history() {
+  BUFFER=$(history -n -r 1 | fzf --no-sort +m --query "$LBUFFER" --prompt="History > ")
+  CURSOR=$#BUFFER
+}
+zle -N select-history
+bindkey '^r' select-history
+
 ##################################################
 # Completion
 ##################################################
