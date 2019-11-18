@@ -1,22 +1,32 @@
 source ~/.vimrc
 
+" ### Jump
 nnoremap gd :action GotoDeclaration<CR>
 nnoremap gb :action Back<CR>
 
+" ### File control
 nnoremap <Space>w :w<CR>
 nnoremap <Space>q :q<CR>
 
-nnoremap <Space>e :action SearchEverywhere<CR>
-nnoremap <Space>g :action FindInPath<CR>
-nnoremap <Space>s :action FileStructurePopup<CR>
-
+" Lint
 nnoremap <Space>f :action Javascript.Linters.EsLint.Fix<CR>
 
+" ### Tab control
+" Split tab
 nnoremap <C-o>- :split<CR>
-nnoremap <C-o>l :vsplit<CR>
+nnoremap <C-o>\| :vsplit<CR>
 
+" Move tab (depends on `Tab Shifter` plugin)
+nnoremap <C-o><C-l> :action TabShiftActions.ShiftRight<CR>
+nnoremap <C-o><C-h> :action TabShiftActions.ShiftLeft<CR>
+
+" Navigate tab
 nnoremap <C-j> :action PreviousTab<CR>
 nnoremap <C-k> :action NextTab<CR>
 nnoremap <C-h> :action PrevSplitter<CR>
 nnoremap <C-l> :action NextSplitter<CR>
 
+" ### Find
+nnoremap <Space>e :action SearchEverywhere<CR>
+nnoremap <Space>g :action FindInPath<CR>
+nnoremap <Space>s :action FileStructurePopup<CR>
