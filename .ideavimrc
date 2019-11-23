@@ -1,8 +1,14 @@
 source ~/.vimrc
 
+" Enable surround.vim emulation
+set surround
+
 " ### Jump
 nnoremap gd :action GotoDeclaration<CR>
 nnoremap gb :action Back<CR>
+
+" (depends on `AceJump` plugin)
+nnoremap f :action AceAction<CR>
 
 " ### File control
 nnoremap <Space>w :w<CR>
