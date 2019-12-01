@@ -1,5 +1,11 @@
 source ~/.vimrc
 
+" Shift+j join string literal
+set ideajoin
+
+" Share clipboad
+set clipboard+=unnamed
+
 " Enable surround.vim emulation
 set surround
 
