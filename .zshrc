@@ -154,8 +154,8 @@ zplug load
 
 path=( \
   $HOME/.local/bin(N-/) \
-  /usr/local/bin(N-/) \
   $path \
+  /usr/local/bin(N-/) \
 )
 
 ##################################################
