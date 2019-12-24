@@ -155,6 +155,7 @@ zplug load
 path=( \
   $HOME/.local/bin(N-/) \
   $path \
+  /usr/local/share/git-core/contrib/diff-highlight \
   /usr/local/bin(N-/) \
 )
 
