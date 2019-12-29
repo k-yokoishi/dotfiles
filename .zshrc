@@ -155,7 +155,7 @@ zplug load
 path=( \
   $HOME/.local/bin(N-/) \
   $path \
-  /usr/local/share/git-core/contrib/diff-highlight \
+  /usr/local/share/git-core/contrib/diff-highlight(N-/) \
   /usr/local/bin(N-/) \
 )
 
@@ -235,6 +235,7 @@ alias -g G='| grep'
 alias sudo='sudo ' # enable completion after sudo
 alias watch='watch ' # enable alias after watch
 
+alias tm='tmux'
 alias rm='rm -i'
 alias cp='cp -i'
 alias mv='mv -i'

@@ -15,6 +15,6 @@ nnoremap <C-n> :noh<CR>
 nnoremap ; :
 nnoremap L $
 nnoremap H 0
+nnoremap x "_x
 
 inoremap <silent> jj <ESC>
-
