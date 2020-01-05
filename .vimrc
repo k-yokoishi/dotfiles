@@ -1,11 +1,13 @@
 set number
 set noswapfile
-set background="dark" 
 set ruler
 set hlsearch
+set tabstop=4
 
 syntax enable
-colorscheme elflord
+
+set background=dark
+colorscheme jellybeans
 
 let mapleader = "\<Space>"
 

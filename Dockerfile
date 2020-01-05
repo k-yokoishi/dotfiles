@@ -1,3 +1,3 @@
 FROM centos:latest
 
-RUN yum install -y zsh make
+RUN yum install -y zsh vim make
