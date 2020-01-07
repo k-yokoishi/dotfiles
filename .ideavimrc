@@ -44,6 +44,6 @@ nnoremap <C-h> :action PrevSplitter<CR>
 nnoremap <C-l> :action NextSplitter<CR>
 
 " ### Find
-nnoremap <Space>e :action SearchEverywhere<CR>
-nnoremap <Space>g :action FindInPath<CR>
-nnoremap <Space>s :action FileStructurePopup<CR>
+nnoremap <C-o><C-e> :action SearchEverywhere<CR>
+nnoremap <C-o><C-f> :action GotoFile<CR>
+nnoremap <C-o><C-g> :action FindInPath<CR>
