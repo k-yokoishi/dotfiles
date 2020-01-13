@@ -73,6 +73,7 @@ chpwd() { ls -ltrG }
 # Extended glob expansion
 setopt extended_glob
 
+
 ##################################################
 # fzf
 ##################################################
@@ -88,14 +89,12 @@ ghq_repo() {
 zle -N ghq_repo
 bindkey '^G' ghq_repo
 
-git_branch() {
+gbr() {
   local branches branch
   branches=$(git --no-pager branch -vv) &&
   branch=$(echo "$branches" | fzf +m) &&
   git checkout $(echo "$branch" | awk '{print $1}' | sed "s/.* //")
 }
-zle -N git_branch
-bindkey '^B' git_branch
 
 ##################################################
 # Others (uncategorized)
@@ -145,7 +144,8 @@ source $ZPLUG_HOME/init.zsh
 zplug "b4b4r07/enhancd", use:init.sh
 zplug "mafredri/zsh-async", from:"github", use:"async.zsh"
 zplug "zsh-users/zsh-autosuggestions"
-zplug "zsh-users/zsh-syntax-highlighting"
+zplug "zsh-users/zsh-syntax-highlighting", defer:2
+zplug "b4b4r07/zsh-vimode-visual", defer:3
 zplug load
 
 ##################################################
@@ -171,6 +171,7 @@ export LS_COLORS='di=36:ln=35:so=32:pi=33:ex=31:bd=34;46:cd=34;43:su=30;41:sg=30
 ##################################################
 
 autoload -Uz vcs_info
+autoload -Uz terminfo
 setopt prompt_subst
 
 zstyle ':vcs_info:git:*' check-for-changes true
@@ -209,7 +210,7 @@ construct_prompt() {
     fi
 
     echo "
-%F{245}#%f %B%F{214}%n%f%b in %B%F{cyan}%~%f%b${vsc_info}${venv_info} ${took}
+$ZLE_MODE %B%F{cyan}%~%f%b${vsc_info}${venv_info} ${took}
 %(?.%{$fg[green]%}.%{$fg[red]%})➜ %{${reset_color}%}"
 }
 
@@ -223,6 +224,44 @@ precmd () {
 }
 
 PROMPT=`construct_prompt`
+
+##################################################
+# ZLE (Zsh Line Editor)
+##################################################
+
+bindkey -v
+bindkey -M viins 'jj' vi-cmd-mode
+bindkey -M viins '^A' beginning-of-line
+bindkey -M viins '^B' backward-char
+bindkey -M viins '^D' delete-char-or-list
+bindkey -M viins '^E' end-of-line
+bindkey -M viins '^F' forward-char
+bindkey -M viins '^H' backward-delete-char
+bindkey -M viins '^N' down-line-or-history
+bindkey -M viins '^P' up-line-or-history
+bindkey -M viins '^r' select-history
+
+function zle-keymap-select zle-line-init zle-line-finish
+{
+    case $KEYMAP in
+        main|viins)
+            ZLE_MODE="%B%K{47}%F{white} INS %f%k%b%F{47}%f"
+            ;;
+        vicmd)
+            ZLE_MODE="%K{white}%F{black} NRM %f%k%F{white}%f"
+            ;;
+        vivis|vivli)
+            ZLE_MODE="%B%K{214}%F{white} VIS %f%k%b%F{214}%f%f"
+            ;;
+    esac
+    PROMPT=`construct_prompt`
+    zle reset-prompt
+}
+
+zle -N zle-line-init
+zle -N zle-line-finish
+zle -N zle-keymap-select
+zle -N edit-command-line
 
      
 ##################################################
