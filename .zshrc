@@ -239,19 +239,24 @@ bindkey -M viins '^F' forward-char
 bindkey -M viins '^H' backward-delete-char
 bindkey -M viins '^N' down-line-or-history
 bindkey -M viins '^P' up-line-or-history
+
 bindkey -M viins '^r' select-history
+bindkey -M viins '^G' ghq_repo
+
+# CHEVRON_RIGHT="\ue0b0" # Requires Powerline Font
+CIRCLE_RIGHT="\ue0b4" # Requires Hack Nerd Font
 
 function zle-keymap-select zle-line-init zle-line-finish
 {
     case $KEYMAP in
         main|viins)
-            ZLE_MODE="%B%K{47}%F{white} INS %f%k%b%F{47}%f"
+            ZLE_MODE="%B%K{cyan}%F{white} INS %f%k%b%F{cyan}${CIRCLE_RIGHT}%f"
             ;;
         vicmd)
-            ZLE_MODE="%K{white}%F{black} NRM %f%k%F{white}%f"
+            ZLE_MODE="%K{white}%F{black} NRM %f%k%F{white}${CIRCLE_RIGHT}%f"
             ;;
         vivis|vivli)
-            ZLE_MODE="%B%K{214}%F{white} VIS %f%k%b%F{214}%f%f"
+            ZLE_MODE="%B%K{214}%F{white} VIS %f%k%b%F{214}${CIRCLE_RIGHT}%f%f"
             ;;
     esac
     PROMPT=`construct_prompt`

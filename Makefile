@@ -16,8 +16,6 @@ deploy: ## Create symlink to home directory
 update: ## Update dotfiles
 	@echo 'Update git repo'
 	@git pull origin master
-	@echo 'Install zsh plugin'
-	@zplug install
 
 clean: ## Remove dotfiles from home directory
 	@echo 'Remove dotfiles from home directory.'
