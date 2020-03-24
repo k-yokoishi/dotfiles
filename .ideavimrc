@@ -19,7 +19,7 @@ nnoremap gd :action GotoDeclaration<CR>
 nnoremap gb :action Back<CR>
 
 " (depends on `AceJump` plugin)
-nnoremap f :action AceAction<CR>
+nnoremap <Space>f :action AceAction<CR>
 
 " ### File control
 nnoremap <Space>w :w<CR>
@@ -47,3 +47,6 @@ nnoremap <C-l> :action NextSplitter<CR>
 nnoremap <C-o><C-e> :action SearchEverywhere<CR>
 nnoremap <C-o><C-f> :action GotoFile<CR>
 nnoremap <C-o><C-g> :action FindInPath<CR>
+
+" ### Refactor
+nnoremap <Space>r :action RenameElement<CR>

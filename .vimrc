@@ -14,9 +14,9 @@ let mapleader = "\<Space>"
 nnoremap <Leader>w :w<CR>
 nnoremap <Leader>q :q<CR>
 nnoremap <C-n> :noh<CR>
-nnoremap ; :
 nnoremap L $
 nnoremap H 0
 nnoremap x "_x
+nnoremap [ %
 
 inoremap <silent> jj <ESC>
