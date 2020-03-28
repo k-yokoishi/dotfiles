@@ -1,2 +1,23 @@
-# + for commit --amend
+# Binding
 bind generic +      !git commit --amend --allow-empty
+bind generic S      ?git stash save "%(prompt Enter stash comment: )"
+bind generic g      move-first-line
+bind generic G      move-last-line
+bind generic E      view-grep
+
+bind status  P      !git push origin HEAD
+
+# View
+set main-view = id date:local=yes author commit-title:graph=yes,refs=yes
+set blame-view  = date:local=yes author:email-user id:yes,color line-number:yes,interval=1 text
+set pager-view  = line-number:yes,interval=1 text
+set stage-view  = line-number:yes,interval=1 text
+set log-view    = line-number:yes,interval=1 text
+set blob-view   = line-number:yes,interval=1 text
+set diff-view   = line-number:yes,interval=1 text:yes,commit-title-overflow=no
+
+
+# Color
+color id          167  default
+color date        153  default
+color line-number 245  default
