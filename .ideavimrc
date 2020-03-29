@@ -1,8 +1,9 @@
-""""""""""""""""""""""""""
+"#########################
 " REQUIREMENTS PLUGINS
 " * AceJump
 " * Tab SHifter
-""""""""""""""""""""""""""
+"#########################
+
 source ~/.vimrc
 
 " Shift+j join string literal
@@ -11,12 +12,16 @@ set ideajoin
 " Share clipboad
 set clipboard+=unnamed
 
-" Enable surround.vim emulation
-set surround
+" Vim emulations
+set surround " surround.vim
+set multiple-cursors " multiple-cursors
+set commentary " commentary.vim
 
 " ### Jump
 nnoremap gd :action GotoDeclaration<CR>
 nnoremap gb :action Back<CR>
+
+nnoremap <C-o><C-j> :action SelectInProjectView<CR>
 
 " (depends on `AceJump` plugin)
 nnoremap <Space>f :action AceAction<CR>
@@ -24,9 +29,6 @@ nnoremap <Space>f :action AceAction<CR>
 " ### File control
 nnoremap <Space>w :w<CR>
 nnoremap <Space>q :q<CR>
-
-" Lint
-nnoremap <Space>f :action Javascript.Linters.EsLint.Fix<CR>
 
 " ### Tab control
 " Split tab
@@ -50,3 +52,13 @@ nnoremap <C-o><C-g> :action FindInPath<CR>
 
 " ### Refactor
 nnoremap <Space>r :action RenameElement<CR>
+
+"#########################
+" Language Specific
+"#########################
+
+" ### JS
+
+" Lint
+nnoremap <Space>f :action Javascript.Linters.EsLint.Fix<CR>
+
