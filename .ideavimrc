@@ -13,9 +13,15 @@ set ideajoin
 set clipboard+=unnamed
 
 " Vim emulations
-set surround " surround.vim
+set surround         " surround.vim
 set multiple-cursors " multiple-cursors
-set commentary " commentary.vim
+set commentary       " commentary.vim
+
+" multiple-cursors
+map <C-M>  <A-N>
+map <C-P>  <A-P>
+map <C-X>  <A-X>
+map g<C-M> g<A-N>
 
 " ### Jump
 nnoremap gd :action GotoDeclaration<CR>
@@ -24,7 +30,7 @@ nnoremap gb :action Back<CR>
 nnoremap <C-o><C-j> :action SelectInProjectView<CR>
 
 " (depends on `AceJump` plugin)
-nnoremap <Space>f :action AceAction<CR>
+nnoremap gf :action AceAction<CR>
 
 " ### File control
 nnoremap <Space>w :w<CR>
@@ -49,9 +55,6 @@ nnoremap <C-l> :action NextSplitter<CR>
 nnoremap <C-o><C-e> :action SearchEverywhere<CR>
 nnoremap <C-o><C-f> :action GotoFile<CR>
 nnoremap <C-o><C-g> :action FindInPath<CR>
-
-" ### Refactor
-nnoremap <Space>r :action RenameElement<CR>
 
 "#########################
 " Language Specific
