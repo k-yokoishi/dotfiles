@@ -11,8 +11,8 @@ colorscheme jellybeans
 
 let mapleader = "\<Space>"
 
-nnoremap <Leader>w :w<CR>
-nnoremap <Leader>q :q<CR>
+nnoremap W :w<CR>
+nnoremap Q :q<CR>
 nnoremap <C-n> :noh<CR>
 nnoremap L $
 nnoremap H 0
