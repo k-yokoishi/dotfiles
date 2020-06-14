@@ -22,3 +22,15 @@ nnoremap x "_x
 nnoremap [ %
 
 inoremap <silent> jj <ESC>
+
+" visual-star
+xnoremap * :<C-u>call <SID>VSetSearch()<CR>/<CR>=@/<CR><CR>
+xnoremap # :<C-u>call <SID>VSetSearch()<CR>?<CR>=@/<CR><CR>
+
+function!s:VSetSearch()
+  let temp = @s
+  norm! gv"sy
+  let @/ = '\V' . substitute(escape(@s, '/\'), '\n', '\\n', 'g')
+  let @s = temp
+endfunction
+
