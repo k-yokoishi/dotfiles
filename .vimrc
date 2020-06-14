@@ -3,6 +3,8 @@ set noswapfile
 set ruler
 set hlsearch
 set tabstop=4
+set ignorecase
+set smartcase
 
 syntax enable
 
