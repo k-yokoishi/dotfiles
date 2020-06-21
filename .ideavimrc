@@ -13,9 +13,10 @@ set ideajoin
 set clipboard+=unnamed
 
 " Vim emulations
-set surround         " surround.vim
-set multiple-cursors " multiple-cursors
-set commentary       " commentary.vim
+set surround
+set multiple-cursors
+set commentary
+set ReplaceWithRegister
 
 " multiple-cursors
 map <C-M>  <A-N>
