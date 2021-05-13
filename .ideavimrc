@@ -28,6 +28,7 @@ map g<C-M> g<A-N>
 
 " ### Jump
 nnoremap gd :action GotoDeclaration<CR>
+nnoremap gi :action GotoImplementation<CR>
 nnoremap gb :action Back<CR>
 
 nnoremap <C-o><C-j> :NERDTree<CR>
