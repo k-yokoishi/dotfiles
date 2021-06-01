@@ -350,7 +350,7 @@ fi
 PYENV_ROOT="$HOME/.pyenv"
 if [ -d $PYENV_ROOT ]; then
   path=($PYENV_ROOT/bin(N-/) $path)
-  eval "$(pyenv init -)"
+  eval "$(pyenv init --path)"
 fi
 
 ##################################################
