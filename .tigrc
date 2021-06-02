@@ -5,6 +5,8 @@ bind generic g      move-first-line
 bind generic G      move-last-line
 bind generic E      view-grep
 
+bind main    !      ?git revert %(commit)
+
 bind status  P      !git push origin HEAD
 
 # View
