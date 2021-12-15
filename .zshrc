@@ -321,19 +321,27 @@ path=(
 # Node
 ##################################################
 
-export NVM_DIR="$HOME/.nvm"
+### NVM
+#export NVM_DIR="$HOME/.nvm"
 
 # asynchronously load nvm because nvm.sh is so slow (about 1~ sec)
 # https://github.com/nvm-sh/nvm/issues/539#issuecomment-403661578
-function load_nvm() {
-    [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-    [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"
-}
+# function load_nvm() {
+#     [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+#     [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"
+# }
 
 # Initialize worker
-async_start_worker nvm_worker -n
-async_register_callback nvm_worker load_nvm
-async_job nvm_worker sleep 0.1
+# async_start_worker nvm_worker -n
+# async_register_callback nvm_worker load_nvm
+# async_job nvm_worker sleep 0.1
+
+### Volta
+export VOLTA_HOME="$HOME/.volta"
+path=(
+  $VOLTA_HOME/bin(N-/) \
+  $path
+)
 
 ##################################################
 # Python
@@ -381,3 +389,5 @@ fi
 if [ -f "$HOME/google-cloud-sdk/completion.zsh.inc" ]; then
     . "$HOME/google-cloud-sdk/completion.zsh.inc"
 fi
+export VOLTA_HOME="$HOME/.volta"
+export PATH="$VOLTA_HOME/bin:$PATH"
