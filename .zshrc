@@ -68,7 +68,7 @@ setopt pushd_ignore_dups
 setopt correct
 
 # Run ls after cd
-chpwd() { ls -ltrG }
+# chpwd() { ls -ltrG }
 
 # Extended glob expansion
 setopt extended_glob
@@ -290,9 +290,9 @@ alias rm='rm -i'
 alias cp='cp -i'
 alias mv='mv -i'
 
-alias ls="ls -G"
-alias ll="ls -l"
-alias la="ls -la"
+alias ls="ls -Gh"
+alias ll="ls -lh"
+alias la="ls -lah"
 
 alias mkdir='mkdir -p'
 
@@ -360,6 +360,15 @@ if [ -d $PYENV_ROOT ]; then
   path=($PYENV_ROOT/bin(N-/) $path)
   eval "$(pyenv init --path)"
 fi
+
+##################################################
+# MySql
+##################################################
+
+path=(
+  /usr/local/opt/mysql-client/bin(N-/) \
+  $path
+)
 
 ##################################################
 # Kubernetes
