@@ -138,7 +138,7 @@ autoload -Uz zmv
 # Plugins (zplug)
 ##################################################
 
-export ZPLUG_HOME=/usr/local/opt/zplug
+export ZPLUG_HOME=~/.zplug
 source $ZPLUG_HOME/init.zsh
 
 zplug "b4b4r07/enhancd", use:init.sh
@@ -215,6 +215,8 @@ construct_prompt() {
         vsc_info=""
     fi
 
+    # Required nerd-fonts
+    # https://github.com/ryanoasis/nerd-fonts
     echo "
 $ZLE_MODE %B%F{cyan}%~%f%b${vsc_info}${venv_info} ${took}
 %(?.%{$fg[green]%}.%{$fg[red]%})➜ %{${reset_color}%}"
@@ -383,7 +385,7 @@ path=( \
 # kubectl
 source <(kubectl completion zsh)
 alias k=kubectl
-complete -o default -F __start_kubectl k
+compdef __start_kubectl k
 
 ##################################################
 # Google Cloud Platform
@@ -398,5 +400,3 @@ fi
 if [ -f "$HOME/google-cloud-sdk/completion.zsh.inc" ]; then
     . "$HOME/google-cloud-sdk/completion.zsh.inc"
 fi
-export VOLTA_HOME="$HOME/.volta"
-export PATH="$VOLTA_HOME/bin:$PATH"
