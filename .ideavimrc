@@ -1,5 +1,6 @@
 "#########################
 " REQUIREMENTS PLUGINS
+" * IdeaVim-EasyMotion
 " * AceJump
 " * Tab Shifter
 "#########################
@@ -19,12 +20,16 @@ set commentary
 set ReplaceWithRegister
 set highlightedyank
 set NERDTree
+set easymotion
 
 " multiple-cursors
 map <C-M>  <A-N>
 map <C-P>  <A-P>
 map <C-X>  <A-X>
 map g<C-M> g<A-N>
+
+" easymotion
+nmap s <Plug>(easymotion-s)
 
 " ### Jump
 nnoremap gd :action GotoDeclaration<CR>
