@@ -391,9 +391,11 @@ path=( \
 )
 
 # kubectl
-source <(kubectl completion zsh)
-alias k=kubectl
-compdef __start_kubectl k
+if which kubectl >/dev/null 2>&1 ; then
+  source <(kubectl completion zsh)
+  alias k=kubectl
+  compdef __start_kubectl k
+fi
 
 ##################################################
 # Google Cloud Platform
