@@ -180,11 +180,9 @@ autoload -Uz vcs_info
 autoload -Uz terminfo
 setopt prompt_subst
 
-zstyle ':vcs_info:git:*' check-for-changes true
-zstyle ':vcs_info:git:*' unstagedstr '!'
-zstyle ':vcs_info:git:*' stagedstr '!'
-zstyle ':vcs_info:*' formats '%b' '%c%u'
-zstyle ':vcs_info:*' actionformats '%b' '%c%u<%a>'
+zstyle ':vcs_info:git:*' check-for-changes false
+zstyle ':vcs_info:*' formats '%b'
+zstyle ':vcs_info:*' actionformats '%b<%a>'
 
 construct_prompt() {
     # Workaround to update vsc_info for each command
@@ -206,11 +204,7 @@ construct_prompt() {
     fi
 
     if [ -n "$vcs_info_msg_0_" ]; then
-        if [ -n "$vcs_info_msg_1_" ]; then
-            vsc_info=" on %B%F{magenta} ${vcs_info_msg_0_}*%f%b"
-        else
-            vsc_info=" on %B%F{green} ${vcs_info_msg_0_}%f%b"
-        fi
+        vsc_info=" on %B%F{green} ${vcs_info_msg_0_}%f%b"
     else
         vsc_info=""
     fi
