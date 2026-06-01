@@ -9,6 +9,8 @@ bind main    !      ?git revert %(commit)
 
 bind status  P      !git push origin HEAD
 
+bind refs P !git pull origin %(branch)
+
 # View
 set main-view = id date:local=yes author commit-title:graph=yes,refs=yes
 set blame-view  = date:local=yes author:email-user id:yes,color line-number:yes,interval=1 text
