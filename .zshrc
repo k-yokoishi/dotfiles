@@ -132,23 +132,26 @@ fi
 autoload -Uz zmv
 
 ##################################################
-# Plugins (zplug)
+# Plugins
 ##################################################
 
-export ZPLUG_HOME=~/.zplug
-source $ZPLUG_HOME/init.zsh
+ZSH_PLUGIN_HOME=${ZSH_PLUGIN_HOME:-$HOME/.local/share/zsh/plugins}
 
-# zplug "b4b4r07/enhancd", use:init.sh
-zplug "zsh-users/zsh-autosuggestions"
-zplug "zsh-users/zsh-syntax-highlighting", defer:2
-zplug "b4b4r07/zsh-vimode-visual", defer:3
-zplug "zsh-users/zsh-completions"
-zplug load
+fpath=(
+  $ZSH_PLUGIN_HOME/zsh-completions/src(N-/) \
+  /opt/homebrew/share/zsh/site-functions(N-/) \
+  /usr/local/share/zsh-completions(N-/) \
+  $fpath
+)
 
-if [ -e /usr/local/share/zsh-completions ]; then
-    fpath=(/usr/local/share/zsh-completions $fpath)
-fi
-autoload -U compinit && compinit
+autoload -Uz compinit
+compinit -C -d ~/.zcompdump
+
+[ -r "$ZSH_PLUGIN_HOME/zsh-autosuggestions/zsh-autosuggestions.zsh" ] && \
+  source "$ZSH_PLUGIN_HOME/zsh-autosuggestions/zsh-autosuggestions.zsh"
+
+[ -r "$ZSH_PLUGIN_HOME/zsh-vimode-visual/zsh-vimode-visual.plugin.zsh" ] && \
+  source "$ZSH_PLUGIN_HOME/zsh-vimode-visual/zsh-vimode-visual.plugin.zsh"
 
 ##################################################
 # PATH
@@ -345,3 +348,6 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 #  $path
 #)
 eval "$(mise activate zsh)"
+
+[ -r "$ZSH_PLUGIN_HOME/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ] && \
+  source "$ZSH_PLUGIN_HOME/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
