@@ -32,9 +32,6 @@ bindkey '^r' select-history
 
 fpath=(~/.zsh/completions $fpath)
 
-# Enable complition
-autoload -Uz compinit && compinit
-
 # Complete case-insentitively
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 
@@ -141,8 +138,7 @@ autoload -Uz zmv
 export ZPLUG_HOME=~/.zplug
 source $ZPLUG_HOME/init.zsh
 
-zplug "b4b4r07/enhancd", use:init.sh
-zplug "mafredri/zsh-async", from:"github", use:"async.zsh"
+# zplug "b4b4r07/enhancd", use:init.sh
 zplug "zsh-users/zsh-autosuggestions"
 zplug "zsh-users/zsh-syntax-highlighting", defer:2
 zplug "b4b4r07/zsh-vimode-visual", defer:3
@@ -163,6 +159,7 @@ path=( \
   $path \
   /usr/local/share/git-core/contrib/diff-highlight(N-/) \
   /usr/local/bin(N-/) \
+  $HOME/.bun/bin \
 )
 
 ##################################################
@@ -323,88 +320,28 @@ path=(
 # Node
 ##################################################
 
-### NVM
-#export NVM_DIR="$HOME/.nvm"
-
-# asynchronously load nvm because nvm.sh is so slow (about 1~ sec)
-# https://github.com/nvm-sh/nvm/issues/539#issuecomment-403661578
-# function load_nvm() {
-#     [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-#     [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"
-# }
-
-# Initialize worker
-# async_start_worker nvm_worker -n
-# async_register_callback nvm_worker load_nvm
-# async_job nvm_worker sleep 0.1
-
-### Volta
 export VOLTA_HOME="$HOME/.volta"
 path=(
   $VOLTA_HOME/bin(N-/) \
   $path
 )
 
-##################################################
-# Python
-##################################################
+# bun completions
+[ -s "/Users/yokoishi/.bun/_bun" ] && source "/Users/yokoishi/.bun/_bun"
 
-# Virtualenvwrapper
-if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
-    export WORKON_HOME=$HOME/.virtualenvs
-    export VIRTUALENVWRAPPER_SCRIPT=/usr/local/bin/virtualenvwrapper.sh
-    source /usr/local/bin/virtualenvwrapper_lazy.sh
-fi
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+. "/Users/yokoishi/.deno/env"
 
-# pyenv (Python version management)
-PYENV_ROOT="$HOME/.pyenv"
-if [ -d $PYENV_ROOT ]; then
-  path=($PYENV_ROOT/bin(N-/) $path)
-  eval "$(pyenv init --path)"
-fi
 
 ##################################################
-# Ruby
+# Claude code
 ##################################################
-
-[[ -d ~/.rbenv  ]] && \
-  export PATH=${HOME}/.rbenv/bin:${PATH} && \
-  eval "$(rbenv init -)"
-
-##################################################
-# MySql
-##################################################
-
-path=(
-  /usr/local/opt/mysql-client/bin(N-/) \
-  $path
-)
-
-##################################################
-# Kubernetes
-##################################################
-
-path=( \
-  /usr/local/kubebuilder/bin(N-/) \
-  ${KREW_ROOT:-$HOME/.krew}/bin(N-/) \
-  $path \
-)
-
-# kubectl
-source <(kubectl completion zsh)
-alias k=kubectl
-compdef __start_kubectl k
-
-##################################################
-# Google Cloud Platform
-##################################################
-
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f "$HOME/google-cloud-sdk/path.zsh.inc" ]; then
-    . "$HOME/google-cloud-sdk/path.zsh.inc"
-fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f "$HOME/google-cloud-sdk/completion.zsh.inc" ]; then
-    . "$HOME/google-cloud-sdk/completion.zsh.inc"
-fi
+#alias claude="$HOME/.claude/local/claude"
+#
+#path=(
+#  $HOME/.claude/local(N-/) \
+#  $path
+#)
+eval "$(mise activate zsh)"
