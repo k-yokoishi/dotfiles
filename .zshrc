@@ -328,12 +328,14 @@ path=(
 )
 
 # bun completions
-[ -s "/Users/yokoishi/.bun/_bun" ] && source "/Users/yokoishi/.bun/_bun"
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
 
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
-. "/Users/yokoishi/.deno/env"
+
+# deno
+[ -s "$HOME/.deno/env" ] && . "$HOME/.deno/env"
 
 
 ##################################################
