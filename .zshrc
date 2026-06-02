@@ -313,6 +313,10 @@ path=(
   $path
 )
 
+if which goenv >/dev/null 2>&1 ; then
+  eval "$(goenv init -)"
+fi
+
 ##################################################
 # Node
 ##################################################
@@ -345,3 +349,47 @@ eval "$(mise activate zsh)"
 
 [ -r "$ZSH_PLUGIN_HOME/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ] && \
   source "$ZSH_PLUGIN_HOME/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+
+[[ -d ~/.rbenv  ]] && \
+  export PATH=${HOME}/.rbenv/bin:${PATH} && \
+  eval "$(rbenv init -)"
+
+##################################################
+# MySql
+##################################################
+
+path=(
+  /usr/local/opt/mysql-client/bin(N-/) \
+  $path
+)
+
+##################################################
+# Kubernetes
+##################################################
+
+path=( \
+  /usr/local/kubebuilder/bin(N-/) \
+  ${KREW_ROOT:-$HOME/.krew}/bin(N-/) \
+  $path \
+)
+
+# kubectl
+if which kubectl >/dev/null 2>&1 ; then
+  source <(kubectl completion zsh)
+  alias k=kubectl
+  compdef __start_kubectl k
+fi
+
+##################################################
+# Google Cloud Platform
+##################################################
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f "$HOME/google-cloud-sdk/path.zsh.inc" ]; then
+    . "$HOME/google-cloud-sdk/path.zsh.inc"
+fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f "$HOME/google-cloud-sdk/completion.zsh.inc" ]; then
+    . "$HOME/google-cloud-sdk/completion.zsh.inc"
+fi
