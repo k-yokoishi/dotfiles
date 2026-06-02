@@ -145,7 +145,7 @@ fpath=(
 )
 
 autoload -Uz compinit
-compinit -C -d ~/.zcompdump
+compinit -d ~/.zcompdump
 
 [ -r "$ZSH_PLUGIN_HOME/zsh-autosuggestions/zsh-autosuggestions.zsh" ] && \
   source "$ZSH_PLUGIN_HOME/zsh-autosuggestions/zsh-autosuggestions.zsh"
