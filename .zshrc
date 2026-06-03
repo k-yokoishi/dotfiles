@@ -137,6 +137,16 @@ autoload -Uz zmv
 
 ZSH_PLUGIN_HOME=${ZSH_PLUGIN_HOME:-$HOME/.local/share/zsh/plugins}
 
+source_zsh_plugin() {
+  local plugin_file
+  for plugin_file in "$@"; do
+    [[ -r "$plugin_file" ]] || continue
+    source "$plugin_file"
+    return 0
+  done
+  return 1
+}
+
 fpath=(
   $ZSH_PLUGIN_HOME/zsh-completions/src(N-/) \
   /opt/homebrew/share/zsh/site-functions(N-/) \
@@ -147,8 +157,10 @@ fpath=(
 autoload -Uz compinit
 compinit -d ~/.zcompdump
 
-[ -r "$ZSH_PLUGIN_HOME/zsh-autosuggestions/zsh-autosuggestions.zsh" ] && \
-  source "$ZSH_PLUGIN_HOME/zsh-autosuggestions/zsh-autosuggestions.zsh"
+source_zsh_plugin \
+  "$ZSH_PLUGIN_HOME/zsh-autosuggestions/zsh-autosuggestions.zsh" \
+  /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh \
+  /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 [ -r "$ZSH_PLUGIN_HOME/zsh-vimode-visual/zsh-vimode-visual.plugin.zsh" ] && \
   source "$ZSH_PLUGIN_HOME/zsh-vimode-visual/zsh-vimode-visual.plugin.zsh"
@@ -244,6 +256,18 @@ bindkey -M viins '^P' up-line-or-history
 
 bindkey -M viins '^r' select-history
 bindkey -M viins '^G' ghq_repo
+
+autosuggest-accept-or-complete() {
+  if [[ -n "$POSTDISPLAY" ]] && (( ${+widgets[autosuggest-accept]} )); then
+    zle autosuggest-accept
+  else
+    zle expand-or-complete
+  fi
+}
+zle -N autosuggest-accept-or-complete
+(( ${+ZSH_AUTOSUGGEST_IGNORE_WIDGETS} )) && \
+  ZSH_AUTOSUGGEST_IGNORE_WIDGETS+=(autosuggest-accept-or-complete)
+bindkey -M viins '^I' autosuggest-accept-or-complete
 
 # CHEVRON_RIGHT="\ue0b0" # Requires Powerline Font
 CIRCLE_RIGHT="\ue0b4" # Requires Hack Nerd Font
@@ -349,9 +373,6 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 #)
 eval "$(mise activate zsh)"
 
-[ -r "$ZSH_PLUGIN_HOME/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ] && \
-  source "$ZSH_PLUGIN_HOME/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
-
 [[ -d ~/.rbenv  ]] && \
   export PATH=${HOME}/.rbenv/bin:${PATH} && \
   eval "$(rbenv init -)"
@@ -395,3 +416,9 @@ fi
 if [ -f "$HOME/google-cloud-sdk/completion.zsh.inc" ]; then
     . "$HOME/google-cloud-sdk/completion.zsh.inc"
 fi
+
+# zsh-syntax-highlighting should be sourced after other widgets/plugins.
+source_zsh_plugin \
+  "$ZSH_PLUGIN_HOME/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" \
+  /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh \
+  /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
