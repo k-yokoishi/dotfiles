@@ -1,0 +1,27 @@
+# herdr configuration (~/.config/herdr/config.toml)
+# Keybindings mirror .tmux.conf as closely as herdr's model allows.
+
+[keys]
+# Change prefix key bind (tmux: set -g prefix C-o)
+prefix = "ctrl+o"
+
+# Reload config (tmux: bind r source-file ~/.tmux.conf)
+reload_config = "prefix+r"
+# Free up prefix+r above; resize now happens via direct alt+arrow binds below.
+resize_mode = ""
+
+# Split pane (tmux: bind | split-window -h / bind - split-window -v)
+split_vertical = "prefix+|"
+split_horizontal = "prefix+minus"
+
+# Navigate pane, no prefix needed (tmux: bind -n S-Left/Down/Up/Right select-pane)
+focus_pane_left = "shift+left"
+focus_pane_down = "shift+down"
+focus_pane_up = "shift+up"
+focus_pane_right = "shift+right"
+
+# Resize pane, no prefix needed (tmux: bind -n M-Up/Down/Left/Right resize-pane 2)
+resize_pane_left = "alt+left"
+resize_pane_down = "alt+down"
+resize_pane_up = "alt+up"
+resize_pane_right = "alt+right"
